@@ -1,0 +1,16 @@
+{
+  "name": "verisure-bridge",
+  "version": "1.0.0",
+  "description": "Bridge to to enable webhooks with Verisure",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Antero Hanhirova",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "express": "^4.16.4",
+    "helmet": "^3.21.2",
+    "verisure": "git+https://git@github.com/ankero/node-verisure.git"
+  }
+}
