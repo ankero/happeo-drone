@@ -25,3 +25,7 @@ Running locally, just run `npm run`.
 ## Deploying
 
 Deploy where ever you want.
+
+## FYI
+
+As you can see from the package.json, I'm using a fork from `https://www.npmjs.com/package/verisure`. This is because that repo has an issue where if you try to use the same Verisure connection i.e. without re-starting the server between all calls, the requests to Verisure will fail. Other than that the `https://www.npmjs.com/package/verisure` repo was a good starting point.
