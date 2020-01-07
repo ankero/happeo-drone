@@ -1,5 +1,5 @@
 const axios = require("axios");
-const { API_KEY } = require("./.secrets/secrets.json");
+const { API_KEY } = require("../../.secrets/secrets.json");
 
 const instance = axios.create({
   baseURL: "https://api.happeo.com",

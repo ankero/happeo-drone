@@ -2,7 +2,8 @@ const express = require("express");
 const app = express();
 const helmet = require("helmet");
 
-const { listPosts, listPostsByHashtag } = require("./happeo");
+const { listPosts, listPostsByHashtag } = require("./server/happeo/happeo");
+const { go } = require("./server/tello/tello");
 
 const SECONDS = 10;
 const INTERVAL = SECONDS * 1000;
@@ -41,6 +42,7 @@ app.get("/list-posts-by-hashtag-interval/:hashtag", async (req, res, next) => {
       console.log(posts);
       if (posts.length > 0) {
         // DO STUFF WITH DRONE LOL
+        go();
       }
     }, INTERVAL);
 
