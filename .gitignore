@@ -10,5 +10,4 @@ npm-debug.log
 .secrets/
 
 # Own file
-deviceMap.json
 package-lock.json

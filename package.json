@@ -1,7 +1,7 @@
 {
-  "name": "verisure-bridge",
+  "name": "happeo-drone",
   "version": "1.0.0",
-  "description": "Bridge to to enable webhooks with Verisure",
+  "description": "Connecting Happeo with a drone",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
@@ -9,8 +9,11 @@
   "author": "Antero Hanhirova",
   "license": "Apache-2.0",
   "dependencies": {
+    "axios": "^0.19.1",
     "express": "^4.16.4",
     "helmet": "^3.21.2",
-    "verisure": "git+https://git@github.com/ankero/node-verisure.git"
+    "lodash": "^4.17.15",
+    "socket.io": "^2.3.0",
+    "waait": "^1.0.5"
   }
 }

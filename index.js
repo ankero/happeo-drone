@@ -2,65 +2,49 @@ const express = require("express");
 const app = express();
 const helmet = require("helmet");
 
-const { getOverview, getDevice, updateDeviceState } = require("./verisure");
+const { listPosts, listPostsByHashtag } = require("./happeo");
 
-const { API_KEY } =
-  process.env.ENV === "production"
-    ? process.env
-    : require("./.secrets/secrets.json");
+const SECONDS = 10;
+const INTERVAL = SECONDS * 1000;
 
 app.use(helmet());
 app.use(express.json());
 
-function verifyRequest(req, res, next) {
-  let apiKey;
-  if (req.method === "POST") {
-    apiKey = req.body.apiKey;
-  } else {
-    apiKey = req.query.apiKey;
-  }
-
-  if (apiKey !== API_KEY) throw new Error("UNAUTHORIZED");
-
-  next();
-}
-
-app.use(verifyRequest);
-
-app.get("/", async (req, res, next) => {
+app.get("/list-posts", async (req, res, next) => {
   try {
-    const overview = await getOverview();
-    res.send(overview);
+    const posts = await listPosts();
+    res.send(posts);
   } catch (error) {
     next(error);
   }
 });
 
-app.get("/:key", async (req, res, next) => {
+app.get("/list-posts-by-hashtag/:hashtag", async (req, res, next) => {
   try {
-    const { key } = req.params;
-    const overview = await getOverview();
-    res.send(overview[key]);
+    const { hashtag } = req.params;
+    const posts = await listPostsByHashtag(hashtag);
+    res.send(posts);
   } catch (error) {
     next(error);
   }
 });
 
-app.get("/device/:device", async (req, res, next) => {
+app.get("/list-posts-by-hashtag-interval/:hashtag", async (req, res, next) => {
   try {
-    const { device } = req.params;
-    const deviceData = await getDevice(device);
-    res.send(deviceData);
-  } catch (error) {
-    next(error);
-  }
-});
+    const { hashtag } = req.params;
 
-app.post("/device/:device/:state", async (req, res, next) => {
-  try {
-    const { device, state } = req.params;
-    const updatedState = await updateDeviceState(device, state);
-    res.send(updatedState);
+    setInterval(async () => {
+      const posts = await listPostsByHashtag(hashtag, {
+        onlyNewPosts: true
+      });
+
+      console.log(posts);
+      if (posts.length > 0) {
+        // DO STUFF WITH DRONE LOL
+      }
+    }, INTERVAL);
+
+    res.send(`Interval running every ${SECONDS} seconds`);
   } catch (error) {
     next(error);
   }
@@ -68,11 +52,10 @@ app.post("/device/:device/:state", async (req, res, next) => {
 
 app.use(function errorHandler(err, req, res, next) {
   console.error(err);
-  // Just return 404 to obscure error
-  res.sendStatus(404);
+  res.send(err);
 });
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
-  console.log("Verisure bridge listening on port", port);
+  console.log("Listening on port", port);
 });
