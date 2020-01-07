@@ -36,7 +36,7 @@ async function listNewPosts() {
 }
 
 async function listPostsByHashtag(hashtag, params = {}) {
-  if (!hashtag) return [];
+  if (!hashtag) throw new Error("MISSING HASHTAG");
 
   try {
     const { onlyNewPosts } = params;
