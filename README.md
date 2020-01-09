@@ -27,7 +27,7 @@ This small repo connects Happeo with a locally run Drone (via wifi) and flies th
 
 # Running service
 
-Run `npm run`, this will start the server.
+Run `npm run`
 
 ## Example
 
