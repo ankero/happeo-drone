@@ -1,5 +1,9 @@
 const apiClient = require("./apiClient");
 
+const PAGE_SIZE = 5;
+const PAGE_NUMBER = 1;
+const STATE = "PUBLISHED";
+
 let latesCheckedPost = 0;
 
 async function listPosts() {
@@ -7,9 +11,9 @@ async function listPosts() {
     const results = await apiClient({
       method: "GET",
       url: "/posts",
-      pageNumber: 1,
-      pageSize: 10,
-      state: "PUBLISHED"
+      pageNumber: PAGE_NUMBER,
+      pageSize: PAGE_SIZE,
+      state: STATE
     });
 
     return results.data;

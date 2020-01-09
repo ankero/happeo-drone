@@ -1,5 +1,5 @@
 const commandDelays = {
-  command: 500,
+  command: 1000,
   takeoff: 5000,
   land: 5000,
   up: 7000,

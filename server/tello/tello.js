@@ -1,3 +1,10 @@
+// Copied from https://github.com/wesbos/javascript-drones
+// Thanks wesbos for making this available
+
+// As you can see from the code, this is slapped together quite fast
+// If you want to make this really working I recommend re-writing this :)
+// - Antero
+
 const dgram = require("dgram");
 const wait = require("waait");
 const app = require("express")();
@@ -29,46 +36,46 @@ drone.on("message", message => {
   io.sockets.emit("status", message.toString());
 });
 
-function handleError(err) {
-  if (err) {
-    console.log("ERROR");
-    console.log(err);
+function callback(error) {
+  if (error) {
+    console.error(error);
   }
 }
 
-const commands = [
-  "command",
-  "battery?",
-  "takeoff",
-  "forward",
-  "left",
-  "forward",
-  "left",
-  "forward"
-];
+async function flyDrone() {
+  const commands = [
+    "command",
+    "battery?",
+    // "speed?",
+    // "time?",
+    "takeoff",
+    "forward 20",
+    "land"
+    // "left",
+  ];
 
-const i = 0;
-
-drone.send("command", 0, "command".length, PORT, HOST, handleError);
-
-async function go() {
-  const command = commands[i];
-  const delay = commandDelays[command];
-  console.log(`running command: ${command}`);
-  drone.send(command, 0, command.length, PORT, HOST, handleError);
-  await wait(delay);
-  i += 1;
-  if (i < commands.length) {
-    return go();
+  let i = 0;
+  async function runCommands() {
+    const command = commands[i];
+    const delay = commandDelays[command].split(" ")[0];
+    console.log(`running command: ${command}`);
+    drone.send(command, 0, command.length, PORT, HOST, callback);
+    await wait(delay);
+    i += 1;
+    if (i < commands.length) {
+      return runCommands();
+    }
+    console.log("done!");
   }
-  console.log("done!");
+
+  runCommands();
 }
 
 io.on("connection", socket => {
   socket.on("command", command => {
     console.log("command Sent from browser");
     console.log(command);
-    drone.send(command, 0, command.length, PORT, HOST, handleError);
+    drone.send(command, 0, command.length, PORT, HOST, callback);
   });
 
   socket.emit("status", "CONNECTED");
@@ -86,4 +93,6 @@ http.listen(6767, () => {
   console.log("Socket io server up and running");
 });
 
-module.exporst = { go };
+drone.send("command", 0, "command".length, PORT, HOST, handleError);
+
+module.exports = { flyDrone };
