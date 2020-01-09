@@ -19,17 +19,20 @@ This small repo connects Happeo with a locally run Drone (via wifi) and flies th
 
 ## Physical requirements
 
-- Get one of these Tello https://store.dji.com/shop/tello-series
+- Get one of these Tello drones: https://store.dji.com/shop/tello-series
 - Install the app and connect to it via Phone and activate the drone
 - Connect the Drone with your computer using WIFI
-- Oh and since you are using a wifi you need a hard connection with Happeo
-- Enough space :D
+- Oh and since you are using your wifi to connect to the drone you'll need a hard connection to the internets
+- Enough space where to fly the thing :D
 
 # Running service
 
 Run `npm run`, this will start the server.
-Use `POST` requests to URIs provided in the `index.js` -file. As an example you can call `localhost:8080/poll-posts-by-hashtag/happeofly`. This will poll Happeo every 5 seconds and see if there are new posts with the specific hashtag. If yes, then it will run the `flyDrone()` function. Note that this server is quite stupid, so it keeps the post list in its memory, so once you restart the server it will find the old posts and start flying the drone ;) You can improve this by implementing some storage option.
 
-### Thank you
+## Example
+
+Do a `POST` to `localhost:8080/poll-posts-by-hashtag/happeofly`. This will poll Happeo every 5 seconds and see if there are new posts with the hashtag "happeofly". If yes, then it will run the `flyDrone()` function. Note that this server is quite stupid, so it keeps the post list in its memory, so once you restart the server it will find the old posts and start flying the drone ;) You can improve this by implementing some storage option.
+
+# Thank you
 
 This repo is using code from https://github.com/wesbos/javascript-drones/ by wesbos. It is released under DWTFYWTBL -license. Thanks wesbos for the code.
