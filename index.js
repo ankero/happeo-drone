@@ -30,7 +30,7 @@ app.get("/list-posts-by-hashtag/:hashtag", async (req, res, next) => {
   }
 });
 
-app.get("/list-posts-by-hashtag-interval/:hashtag", async (req, res, next) => {
+app.post("/poll-posts-by-hashtag/:hashtag", async (req, res, next) => {
   try {
     const { hashtag } = req.params;
 
@@ -46,7 +46,9 @@ app.get("/list-posts-by-hashtag-interval/:hashtag", async (req, res, next) => {
       }
     }, INTERVAL);
 
-    res.send(`Interval running every ${SECONDS} seconds`);
+    res.send(
+      `Polling posts with #${hashtag}. Polling running every ${SECONDS} seconds.`
+    );
   } catch (error) {
     next(error);
   }
